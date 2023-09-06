@@ -1,60 +1,36 @@
-package threadclass;
-	class MyBank{
-		float amt;
-		
-		public MyBank() {
-			amt=1000;
-		}
-		
-		synchronized public void deposit(float damt) {
-		 System.out.println("Inside depoist method");
-			amt=amt+damt; //1000+4000=5000
-			notify();
+package rukmani1;
+
+	abstract class Bank{
+		 abstract  float rateOfInterest();
 		}
 
-	 	synchronized public void withdraw(float wamt) throws InterruptedException {
-		if(wamt>amt) {  //2000>1000
-			System.out.println("Insufficient balance need to deposit fisrt");
-			wait();
-			System.out.println("After wait");
-		   amt=amt-wamt;  //amt=5000-2000=3000
-		   System.out.println("Balance after withdraw "+amt);
+		class HdfcBank extends Bank{
+		      float rateOfInterest(){
+		             return 6.3f;
+		      }
 		}
-		else {
-			System.out.println("You can withdraw money");
-			
-			 amt=amt-wamt;
-			 System.out.println("Balance after withdraw "+amt);
-			
-		}
-	   }
-	}
-	public class BankMain {
 
-		public static void main(String[] args) {
-			MyBank bob=new MyBank();
-			Thread t1=new Thread() {
-				public void run() {
-						
-							try {
-								bob.withdraw(2000);
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-			};
-			t1.start();
-			
-			Thread t2=new Thread() {
-				public void run() {
+		class SbiBank extends Bank{
+		      float rateOfInterest(){
+		             return 7.5f;
+		      }
+		}
+		class CitiBank extends Bank{
+		      float rateOfInterest(){
+		             return 8f;
+		      }
+		}
+		public class BankMain{
+		        
+			public static void main(String args[]){
 				
-						bob.deposit(4000);
-					
-				}
-				
-			};
-			t2.start();
+                HdfcBank hob=new HdfcBank();
+                System.out.println( "Rate of interest of Hdfc"+ hob.rateOfInterest());
+		        SbiBank sob=new SbiBank();
+		        System.out.println("Rate of interest of SBI"+ sob.rateOfInterest());
+		        CitiBank cob=new CitiBank();
+		        System.out.println("Rate of interest of CitiBank"+ cob.rateOfInterest());
+		        
+		        }
 		}
 
-	}
