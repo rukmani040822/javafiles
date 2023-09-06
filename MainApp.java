@@ -1,42 +1,52 @@
-package rukmani;
+package threadclass;
 
-	import java.util.Scanner;
 
-	 class Employee{
-		 int age;
-		 String name;
-		void input(){
-		     Scanner sc=new Scanner(System.in);
-		     System.out.println("Enter student name");
-		     name = sc.nextLine();
-		     
-		     System.out.println("Enter age");
-		     age = sc.nextInt();
-		  }
-		  void display(){
-		      System.out.println("Name ="+name);
-		       System.out.println("Age="+age);
-		  }
-		  
-	 }
-	 class HR{
-		 
-		 void displayHr(Employee e1) {
-			 System.out.println("Employee details");
-			 System.out.println("name="+e1.name);
-			 System.out.println("age="+e1.age);
-			 
-		 }
-	 }
-		public class MainApp{  
-		public static void main(String args[]){
-			Employee eob=new Employee();
-			eob.input();
-			HR hob=new HR();
-			hob.displayHr(eob);
+	
+
+	class MyThread extends Thread{
+		public void run() {
+			for(int i=1;i<=5;i++) {
+				System.out.println("Thread "+Thread.currentThread());
+				
 			
-		
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				
+				}
+			}
+		}
+
+
+	public class MainApp {
+
+		public static void main(String[] args) throws InterruptedException {
+			MyThread tob1=new MyThread();
+			MyThread tob2=new MyThread();
+			tob2.setName("second");
+			tob1.setName("first");
+			tob1.setPriority(10);
 			
+			System.out.println("first isalive "+tob1.isAlive());
+			System.out.println("second isalive "+tob2.isAlive());
+			tob2.start();
+			System.out.println("second isalive "+tob2.isAlive());
+			tob2.join();
+			System.out.println("second isalive "+tob2.isAlive());
+			System.out.println("first isalive "+tob1.isAlive());
+			tob1.start();
+			System.out.println("first isalive "+tob1.isAlive());
+
 		}
-		}
+
+	}
+
+
+
+
+
+
 
